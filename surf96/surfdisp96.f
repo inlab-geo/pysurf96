@@ -53,8 +53,10 @@ c
 c-----
 
        subroutine surfdisp96(thkm,vpm,vsm,rhom,nlayer,iflsph,iwave,
-     &                       mode,igr,kmax,t,cg,err)
+     &                       mode,igr,kmax,t,cg,err) bind(c,name="surfdisp96")
 
+  		use iso_c_binding
+  
         parameter(LER=0,LIN=5,LOT=6)
         integer NL, NL2, NLAY
         parameter(NL=100,NLAY=100,NL2=NL+NL)
