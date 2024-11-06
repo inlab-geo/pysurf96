@@ -1,8 +1,11 @@
 from typing import Literal
 
-import numpy as np
-
-from .surfdisp96_ext import surfdisp96  # noqa
+import os
+import glob
+import platform
+import numpy
+import numpy.ctypeslib
+import ctypes
 
 MAXLAYER = 100
 MAXPERIODS = 60
@@ -11,6 +14,7 @@ MAXPERIODS = 60
 WaveType = Literal["love", "rayleigh"]
 Velocity = Literal["group", "phase"]
 
+libsurf96=ctypes.cdll.LoadLibrary(glob.glob(os.path.dirname(__file__)+"/surf96*.so")[0])
 
 class Surf96Error(Exception):
     pass
@@ -94,8 +98,34 @@ def surf96(
 
     result = np.zeros(MAXPERIODS)
 
-    error = surfdisp96(
-        _thk, _vp, _vs, _rho, nlayers, iflsph, iwave, mode, igr, kmax, t, result
+
+    thk_=numpy.asfortranarray(res,dtype=numpy.float32)
+    vp_=numpy.asfortranarray(res,dtype=numpy.float32)
+    rho_=numpy.asfortranarray(res,dtype=numpy.float32)
+    nlayers_=ctypes.c_int(nlayers)
+    iflsph_=ctypes.c_int(iflsph)
+    iwave_=ctypes.c_int(iwave)
+    mode_=ctypes.c_int(mode)
+    igr_=ctypes.c_int(igr)
+    kmax_=ctypes.c_int(kmax)
+    t_=numpy.asfortranarray(t)
+    result_=numpy.asfortranarray(result,dtype=numpy.float32)
+
+
+
+    libsurf96.surfdisp96(
+        thk_, 
+        vp_,
+        vs, 
+        _rho, 
+        nlayers, 
+        iflsph, 
+        iwave, 
+        mode, 
+        igr, 
+        kmax, 
+        t, 
+        result
     )
     if error:
         raise Surf96Error(
