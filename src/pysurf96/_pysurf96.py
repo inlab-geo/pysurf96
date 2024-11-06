@@ -21,16 +21,16 @@ class Surf96Error(Exception):
 
 
 def surf96(
-    thickness: np.ndarray,
-    vp: np.ndarray,
-    vs: np.ndarray,
-    rho: np.ndarray,
-    periods: np.ndarray,
+    thickness: numpy.ndarray,
+    vp: numpy.ndarray,
+    vs: numpy.ndarray,
+    rho: numpy.ndarray,
+    periods: numpy.ndarray,
     wave: WaveType = "love",
     mode: int = 1,
     velocity: Velocity = "group",
     flat_earth: bool = True,
-) -> np.ndarray:
+) -> numpy.ndarray:
     """Calculate synthetic surface wave dispersion curves.
 
     Calculate synthetic surface wave dispersion curves for a given earth model, wave
@@ -40,11 +40,11 @@ def surf96(
     from R. Hermann (2013)
 
     Args:
-        thickness (np.ndarray): Layer thickness in [km].
-        vp (np.ndarray): Layer Vp velocity in [km/s].
-        vs (np.ndarray): Layer Vs velocity in [km/s].
-        rho (np.ndarray): Layer density in [g/m^3].
-        periods (np.ndarray): The periods in seconds, where wave velocity is calculated
+        thickness (numpy.ndarray): Layer thickness in [km].
+        vp (numpy.ndarray): Layer Vp velocity in [km/s].
+        vs (numpy.ndarray): Layer Vs velocity in [km/s].
+        rho (numpy.ndarray): Layer density in [g/m^3].
+        periods (numpy.ndarray): The periods in seconds, where wave velocity is calculated
         wave (WaveType, optional): The wave type, "love" or "rayleigh".
             Defaults to "love".
         mode (int, optional): Mode of the wave, 1: fundamental, 2: second-mode, etc...
@@ -53,12 +53,12 @@ def surf96(
         flat_earth (bool, optional): Assume a flat earth. Defaults to True.
 
     Raises:
-        ValueError: Raised when input values are unexpected.
+        ValueError: Raised when inumpyut values are unexpected.
         Surf96Error: If surf96 fortran code raises an error,
             this may be due to low velocity zone.
 
     Returns:
-        np.ndarray: The surface wave velocities at defined periods.
+        numpy.ndarray: The surface wave velocities at defined periods.
     """
     if not (thickness.size == vp.size == vs.size == rho.size):
         raise ValueError("Thickness, vp/vs velocities and rho have different sizes.")
@@ -78,10 +78,10 @@ def surf96(
     nlayers = thickness.size
     kmax = periods.size
 
-    _thk = np.empty(MAXLAYER)
-    _vp = np.empty(MAXLAYER)
-    _vs = np.empty(MAXLAYER)
-    _rho = np.empty(MAXLAYER)
+    _thk = numpy.empty(MAXLAYER)
+    _vp = numpy.empty(MAXLAYER)
+    _vs = numpy.empty(MAXLAYER)
+    _rho = numpy.empty(MAXLAYER)
 
     _thk[:nlayers] = thickness
     _vp[:nlayers] = vp
@@ -93,40 +93,44 @@ def surf96(
     igr = 0 if velocity == "phase" else 1
     mode = int(mode)
 
-    t = np.empty(MAXPERIODS)
+    t = numpy.empty(MAXPERIODS)
     t[:kmax] = periods
+    
+    result = numpy.zeros(MAXPERIODS)
 
-    result = np.zeros(MAXPERIODS)
+	# the conversion vp -> _vp -> vp_ could possibly be done in one step
 
+    thk_=numpy.asfortranarray(_thk,dtype=numpy.float32)
+    vp_=numpy.asfortranarray(_vp,dtype=numpy.float32)
+    vs_=numpy.asfortranarray(_vs,dtype=numpy.float32)
 
-    thk_=numpy.asfortranarray(res,dtype=numpy.float32)
-    vp_=numpy.asfortranarray(res,dtype=numpy.float32)
-    rho_=numpy.asfortranarray(res,dtype=numpy.float32)
+    rho_=numpy.asfortranarray(_rho,dtype=numpy.float32)
     nlayers_=ctypes.c_int(nlayers)
     iflsph_=ctypes.c_int(iflsph)
     iwave_=ctypes.c_int(iwave)
     mode_=ctypes.c_int(mode)
     igr_=ctypes.c_int(igr)
     kmax_=ctypes.c_int(kmax)
-    t_=numpy.asfortranarray(t)
+    t_=numpy.asfortranarray(t,dtype=numpy.float32)
     result_=numpy.asfortranarray(result,dtype=numpy.float32)
-
-
-
+    error=ctypes.c_int(0)
+  
     libsurf96.surfdisp96(
-        thk_, 
-        vp_,
-        vs, 
-        _rho, 
-        nlayers, 
-        iflsph, 
-        iwave, 
-        mode, 
-        igr, 
-        kmax, 
-        t, 
-        result
+        thk_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        vp_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        vs_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), 
+        rho_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)), 
+        ctypes.byref(nlayers_), 
+        ctypes.byref(iflsph_), 
+        ctypes.byref(iwave_), 
+        ctypes.byref(mode_), 
+        ctypes.byref(igr_), 
+    	ctypes.byref(kmax_), 
+        t_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        result.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        ctypes.byref(error)
     )
+    
     if error:
         raise Surf96Error(
             "surf96 threw an error! "

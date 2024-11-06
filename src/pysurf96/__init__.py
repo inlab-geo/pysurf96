@@ -1,1 +1,1 @@
-from .wrapper import surf96  # noqa
+from ._pysurf96 import surf96  # noqa

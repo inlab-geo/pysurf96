@@ -85,6 +85,10 @@
        subroutine surfdisp96(thkm,vpm,vsm,rhom,nlayer,iflsph,iwave, &
                          mode,igr,kmax,t,cg,err)bind(c,name="surfdisp96")
 
+       
+       !subroutine surfdisp96(thkm)bind(c,name="surfdisp96")
+
+
         parameter(LER=0,LIN=5,LOT=6)
         integer NL, NL2, NLAY
         parameter(NL=100,NLAY=100,NL2=NL+NL)
@@ -122,8 +126,8 @@
         integer*4 llw
         integer*4 nsph, ifunc, idispl, idispr, is, ie
         real*4 sone0, ddc0, h0, sone, ddc, h
-      integer, intent(out) :: err
-
+!      integer, intent(out) :: err
+		integer :: err
 !    maximum number of layers in the model
         mmax = nlayer
 !    is the model flat (nsph = 0) or sphere (nsph = 1)   
@@ -133,19 +137,19 @@
 
 
 !        print *,">>>"
-!        print *,thkm(1:nlayer)
-!        print *,vpm(1:nlayer)
-!        print *,vsm(1:nlayer)
-!        print *,rhom(1:nlayer)
-!        print *,nlayer
-!        print *,iflsph
-!        print *,iwave
-!        print *,mode
-!        print *,igr
-!        print *,kmax
-!        print *,t(1:kmax)
-!        print *,cg(1:kmax)
-!        print *,err
+!        print *,'thkm',thkm(1:nlayer)
+!        print *,'vpm',vpm(1:nlayer)
+!        print *,'vsm',vsm(1:nlayer)
+!        print *,'rhom',rhom(1:nlayer)
+!        print *,'nlayer',nlayer
+!        print *,'iflsph',iflsph
+!        print *,'iwave',iwave
+!        print *,'mode',mode
+!        print *,'igr',igr
+!        print *,'kmax',kmax
+!        print *,'t',t(1:kmax)
+!        print *,'cg',cg(1:kmax)
+!        print *,'err',err
 
         if (maxval(thkm(1:nlayer))>50 .or. maxval(vpm(1:nlayer))>10 .or. minval(vpm(1:nlayer)) <0.1 ) then
             cg=0
