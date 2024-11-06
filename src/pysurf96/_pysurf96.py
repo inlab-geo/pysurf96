@@ -114,7 +114,7 @@ def surf96(
     t_=numpy.asfortranarray(t,dtype=numpy.float32)
     result_=numpy.asfortranarray(result,dtype=numpy.float32)
     error=ctypes.c_int(0)
-  
+
     libsurf96.surfdisp96(
         thk_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
         vp_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
@@ -127,10 +127,12 @@ def surf96(
         ctypes.byref(igr_), 
     	ctypes.byref(kmax_), 
         t_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
-        result.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
+        result_.ctypes.data_as(ctypes.POINTER(ctypes.c_float)),
         ctypes.byref(error)
     )
     
+    result=result_    
+
     if error:
         raise Surf96Error(
             "surf96 threw an error! "

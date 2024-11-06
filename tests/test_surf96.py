@@ -47,7 +47,7 @@ def test_wrapper() -> None:
     vs = np.array([2, 3.6, 3.8, 3.3])
     vp = vs * 1.73
     rho = vp * 0.32 + 0.77
-    periods = np.linspace(1.0, 20.0, 20)
+    periods = np.linspace(1, 20, 41)
 
     res = surf96(thickness, vp, vs, rho, periods)
     print(res)

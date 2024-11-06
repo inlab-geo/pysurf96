@@ -136,20 +136,7 @@
         err = 0
 
 
-!        print *,">>>"
-!        print *,'thkm',thkm(1:nlayer)
-!        print *,'vpm',vpm(1:nlayer)
-!        print *,'vsm',vsm(1:nlayer)
-!        print *,'rhom',rhom(1:nlayer)
-!        print *,'nlayer',nlayer
-!        print *,'iflsph',iflsph
-!        print *,'iwave',iwave
-!        print *,'mode',mode
-!        print *,'igr',igr
-!        print *,'kmax',kmax
-!        print *,'t',t(1:kmax)
-!        print *,'cg',cg(1:kmax)
-!        print *,'err',err
+
 
         if (maxval(thkm(1:nlayer))>50 .or. maxval(vpm(1:nlayer))>10 .or. minval(vpm(1:nlayer)) <0.1 ) then
             cg=0
@@ -412,6 +399,22 @@
 !       close(ifunc,status='keep')
  2000 continue
 !        close(3,status='keep')
+
+!       print *,">>>"
+!       print *,'thkm',thkm(1:nlayer)
+!       print *,'vpm',vpm(1:nlayer)
+!       print *,'vsm',vsm(1:nlayer)
+!       print *,'rhom',rhom(1:nlayer)
+!       print *,'nlayer',nlayer
+!       print *,'iflsph',iflsph
+!       print *,'iwave',iwave
+!       print *,'mode',mode
+!       print *,'igr',igr
+!       print *,'kmax',kmax
+!       print *,'t',t(1:kmax)
+!       print *,'cg',cg(1:kmax)
+!       print *,'err',err
+
 
         end
 
