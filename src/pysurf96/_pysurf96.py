@@ -93,7 +93,7 @@ def surf96(
     igr = 0 if velocity == "phase" else 1
     mode = int(mode)
 
-    t = numpy.empty(MAXPERIODS)
+    t = numpy.empty(MAXPERIODS,dtype=numpy.float32)
     t[:kmax] = periods
     
     result = numpy.zeros(MAXPERIODS)
