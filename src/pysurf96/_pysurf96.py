@@ -100,19 +100,19 @@ def surf96(
 
 	# the conversion vp -> _vp -> vp_ could possibly be done in one step
 
-    thk_=numpy.asfortranarray(_thk,dtype=numpy.float32)
-    vp_=numpy.asfortranarray(_vp,dtype=numpy.float32)
-    vs_=numpy.asfortranarray(_vs,dtype=numpy.float32)
+    thk_=numpy.asfortranarray(_thk.astype(numpy.float32),dtype=numpy.float32)
+    vp_=numpy.asfortranarray(_vp.astype(numpy.float32),dtype=numpy.float32)
+    vs_=numpy.asfortranarray(_vs.astype(numpy.float32),dtype=numpy.float32)
 
-    rho_=numpy.asfortranarray(_rho,dtype=numpy.float32)
+    rho_=numpy.asfortranarray(_rho.astype(numpy.float32),dtype=numpy.float32)
     nlayers_=ctypes.c_int(nlayers)
     iflsph_=ctypes.c_int(iflsph)
     iwave_=ctypes.c_int(iwave)
     mode_=ctypes.c_int(mode)
     igr_=ctypes.c_int(igr)
     kmax_=ctypes.c_int(kmax)
-    t_=numpy.asfortranarray(t,dtype=numpy.float32)
-    result_=numpy.asfortranarray(result,dtype=numpy.float32)
+    t_=numpy.asfortranarray(t.astype(numpy.float32),dtype=numpy.float32)
+    result_=numpy.asfortranarray(result.astype(numpy.float32),dtype=numpy.float32)
     error=ctypes.c_int(0)
 
     libsurf96.surfdisp96(
