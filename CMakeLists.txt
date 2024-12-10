@@ -1,9 +1,5 @@
-cmake_minimum_required(VERSION 3.17.2...3.26)
-project(${SKBUILD_PROJECT_NAME} LANGUAGES C Fortran)
+cmake_minimum_required(VERSION 3.15...3.26)
+set(CMAKE_VERBOSE_MAKEFILE on)
+project(pysurf96)
 
-find_package(
-  Python
-  COMPONENTS Interpreter Development.Module NumPy
-  REQUIRED)
-
-add_subdirectory(pysurf96)
+add_subdirectory(surf96)
