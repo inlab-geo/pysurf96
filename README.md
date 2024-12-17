@@ -7,7 +7,7 @@ pip install git+https://github.com/inlab-geo/pysurf96
 ```
 
 
-The original readme at the time of the fork being created is given below. We keep this version available for a situation where problmes would re-surface with the `f2py` based wrapper available at [https://github.com/miili/pysurf96](https://github.com/miili/pysurf96) 
+The original readme at the time of the fork being created is given below. We keep this version available for a situation where problems would re-surface with the `f2py` based wrapper available at [https://github.com/miili/pysurf96](https://github.com/miili/pysurf96) 
 
 -----
 
