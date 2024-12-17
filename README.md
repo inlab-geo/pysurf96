@@ -6,6 +6,12 @@ This is a fork of [https://github.com/miili/pysurf96)](https://github.com/miili/
 pip install git+https://github.com/inlab-geo/pysurf96
 ```
 
+
+
+The original readme at the time of the fork being created is given below...
+
+===
+
 # PySurf96
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
