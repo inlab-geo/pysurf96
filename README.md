@@ -1,6 +1,6 @@
 # PySurf96
 
-This is a fork of [https://github.com/miili/pysurf96)](https://github.com/miili/pysurf96) it is functionally equivalent but the difference is that the interface is being built using ctypes instead of f2py.  It can be installed from this git repository using. That is it can be installed without the need for `f2py`.
+This is a fork of [https://github.com/miili/pysurf96](https://github.com/miili/pysurf96) it is functionally equivalent but the difference is that the interface is being built using ctypes instead of f2py, hence there is no need for f2py. It uses a simpler build system and can be installed from this git repository using the following command.
 
 ```
 pip install git+https://github.com/inlab-geo/pysurf96
