@@ -10,7 +10,7 @@ pip install git+https://github.com/inlab-geo/pysurf96
 
 The original readme at the time of the fork being created is given below...
 
-===
+-----
 
 # PySurf96
 
