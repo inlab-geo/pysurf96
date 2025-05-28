@@ -78,10 +78,10 @@ def surf96(
     nlayers = thickness.size
     kmax = periods.size
 
-    _thk = numpy.empty(MAXLAYER)
-    _vp = numpy.empty(MAXLAYER)
-    _vs = numpy.empty(MAXLAYER)
-    _rho = numpy.empty(MAXLAYER)
+    _thk = numpy.empty(MAXLAYER,dtype=numpy.float32)
+    _vp = numpy.empty(MAXLAYER,dtype=numpy.float32)
+    _vs = numpy.empty(MAXLAYER,dtype=numpy.float32)
+    _rho = numpy.empty(MAXLAYER,dtype=numpy.float32)
 
     _thk[:nlayers] = thickness
     _vp[:nlayers] = vp
